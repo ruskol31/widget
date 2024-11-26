@@ -1,4 +1,4 @@
-# from datetime import datetime
+from datetime import datetime
 from src.widget import get_date, mask_account_card
 
 # from masks import get_mask_card_number, get_mask_account
@@ -13,4 +13,4 @@ from src.widget import get_date, mask_account_card
 
 user_input_account_card_number = input("Введите номер счета или карты")
 print(mask_account_card(user_input_account_card_number))
-print(get_date("2024-03-11T02:26:18.671407"))
+print(get_date('2024-03-11T02:26:18.671407'))

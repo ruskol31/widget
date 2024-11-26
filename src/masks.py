@@ -15,7 +15,7 @@ def get_mask_card_number(user_input_card_number: Any) -> Any:
 
         return mask_card_number
     else:
-        return "Вы неккоректно ввели номер карты"
+        return "Вы некорректно ввели номер карты"
 
 
 def get_mask_account(user_input_account_number: Any) -> Any:
@@ -26,4 +26,4 @@ def get_mask_account(user_input_account_number: Any) -> Any:
         mask_account = user_account_number.replace(user_account_number[0:2], "**")
         return mask_account
     else:
-        return "Вы неккоректно ввели номер счета"
+        return "Вы некорректно ввели номер счета"
