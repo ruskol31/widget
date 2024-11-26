@@ -12,7 +12,7 @@ def mask_account_card(user_input_account_card_number: Any) ->Any:
 
     # проверка типа ввода и выбор соответствующей маскировки #
     if card_type in ["Visa", "Maestro"]:
-        # приминение маски для карт#
+        # применение маски для карт#
         masked_number = get_mask_card_number(number)
     elif card_type == "Счет":
         # выбор маскировки для счетов#
