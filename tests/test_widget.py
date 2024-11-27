@@ -1,9 +1,9 @@
 import pytest
-from src.widget import mask_account_card
+from src.widget import mask_account_card, get_date
 
-# @pytest.fixture
-# def fixture_name():
-#     return
+@pytest.fixture
+def date_str():
+    return "2024-03-11T02:26:18.671407"
 
 @pytest.mark.parametrize ('user_input_account_card_number, expected', [
     ('Maestro 1596837868705199', 'Maestro 1596 83** **** 5199'),
@@ -15,4 +15,5 @@ from src.widget import mask_account_card
 def test_mask_account_card(user_input_account_card_number, expected):
     assert mask_account_card(user_input_account_card_number) == expected
 
-    # "2024-03-11T02:26:18.671407"
+def test_get_date(date_str):
+    assert get_date(date_str) == '11.03.2024'
