@@ -1,12 +1,12 @@
 from typing import Any
+
+
 def get_mask_card_number(user_input_card_number: Any) -> Any:
     """Принимает на вход номер карты и возвращает ее маску"""
 
     user_input_card_number = str(user_input_card_number)
     if len(user_input_card_number) == 16:
-        card_number = user_input_card_number.replace(
-            user_input_card_number[6:12], "******"
-        )
+        card_number = user_input_card_number.replace(user_input_card_number[6:12], "******")
         mask_card_number = ""
         for i in range(0, len(card_number), 4):
             if i > 0:

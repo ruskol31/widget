@@ -1,15 +1,15 @@
 from datetime import datetime
-from typing import Dict, List, Optional
+# from typing import Dict, List, Optional
 
 
 def filter_by_state(list_of_operation: list[dict], state: str = "EXECUTED") -> list[dict]:
-    '''оставлет только операции с заданным статусом'''
+    """оставлет только операции с заданным статусом"""
 
     return [item for item in list_of_operation if item.get("state") == state]
 
 
 def sort_by_date(list_of_operation: list[dict], order: str = "descending") -> list[dict]:
-    '''сортирует список операций от последней по убыванию даты'''
+    """сортирует список операций от последней по убыванию даты"""
 
     sorted_data = sorted(
         list_of_operation,

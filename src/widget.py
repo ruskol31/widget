@@ -1,10 +1,11 @@
 # from src.main import user_input_account_number
-from datetime import datetime
-from src.masks import get_mask_account, get_mask_card_number
+# from datetime import datetime
 from typing import Any
 
+from src.masks import get_mask_account, get_mask_card_number
 
-def mask_account_card(user_input_account_card_number: Any) ->Any:
+
+def mask_account_card(user_input_account_card_number: Any) -> Any:
     """выделение номера и типа из ввода"""
     parts = user_input_account_card_number.rsplit(" ", 1)
     card_type = parts[0]
