@@ -33,6 +33,8 @@ def user_data_generator():
     # },
     ]
 
+
+
 def test_filter_by_currency(user_data_generator, currency = "USD"):
 
     result = list(filter(lambda x: x["operationAmount"]["currency"]["code"] == currency, user_data_generator))
@@ -79,4 +81,12 @@ def test_card_number_generator(start, stop):
     # assert result == expected_result
 
 
-
+@pytest.mark.parametrize("start, stop, expected", [
+    (1, 1, ["0000 0000 0000 0001"]),
+    (1, 2, ["0000 0000 0000 0001", "0000 0000 0000 0002"]),
+    (1, 5, ["0000 0000 0000 0001", "0000 0000 0000 0002", "0000 0000 0000 0003", "0000 0000 0000 0004", "0000 0000 0000 0005"]),
+    (9999999999999997, 9999999999999999, ["9999 9999 9999 9997", "9999 9999 9999 9998", "9999 9999 9999 9999"])
+])
+def test_card_number_generator(start, stop, expected):
+    result = list(card_number_generator(start, stop))
+    assert result == expected
