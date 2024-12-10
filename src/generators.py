@@ -11,6 +11,7 @@ def transaction_descriptions(transactions: list[dict]) -> iter:
     for x in description:
         yield x
 
+
 def card_number_generator(start, end):
     ''' генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX, где X — цифра номера карты'''
     for number in range(start, end + 1):
@@ -49,4 +50,3 @@ for _ in range(2):
 
 for card_number in card_number_generator(1, 5):
     print(card_number)
-
