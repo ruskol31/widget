@@ -1,0 +1,5 @@
+2024-12-20 17:50:44,984 - my_function ок
+2024-12-20 17:50:53,045 - my_function ок
+2024-12-20 17:51:54,094 - my_function ок
+2024-12-20 17:57:25,140 - my_function error: тип ошибки: TypeError. Inputs: (1, 2, 3), {}
+2024-12-24 18:44:36,934 - my_function ок, result =3
