@@ -8,6 +8,7 @@ logging.basicConfig(level=logging.INFO,
                     filename='../logs/masks.log',  # Запись логов в файл
                     filemode='w')  # Перезапись файла при каждом запуске
 
+
 def get_mask_card_number(user_input_card_number: Any) -> Any:
     """Принимает на вход номер карты и возвращает ее маску"""
 

@@ -1,7 +1,8 @@
 import json
 import logging
-import os
+# import os
 from typing import Any
+
 
 logger = logging.getLogger('utils')
 logging.basicConfig(level=logging.INFO,
@@ -16,6 +17,7 @@ logging.basicConfig(level=logging.INFO,
 
 # with open(os.path.dirname(os.path.abspath(__file__))
 #           + "/wordbooks/russian_nouns.txt", "r", encoding='utf-8') as file:
+
 
 def load_operations_list(file_path: str) -> Any:
     '''принимает на вход путь до JSON-файла и
