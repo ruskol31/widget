@@ -67,13 +67,13 @@ def read_financial_operations(file_path):
                     'description': row['description']
                      }
                     operations.append(operation)
-                except Exception as e:
-                    logger.error(f'произошла ошибка: {ex}')
-                    print("Ошибка загрузки файла")
-            except FileNotFoundError as ex:
+            except Exception as ex:
                 logger.error(f'произошла ошибка: {ex}')
-                print("Файл не найден")
-                return []
+                print("Ошибка загрузки файла")
+    except FileNotFoundError as ex:
+        logger.error(f'произошла ошибка: {ex}')
+        print("Файл не найден")
+        return []
     return operations
 
 
