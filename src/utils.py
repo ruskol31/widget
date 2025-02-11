@@ -1,5 +1,7 @@
 import json
 import logging
+import csv
+import pandas as pd
 # import os
 from typing import Any
 
@@ -41,11 +43,8 @@ def load_operations_list(file_path: str) -> Any:
     return operations_list
 
 
-import csv
-
-
 def read_financial_operations(file_path):
-    '''принимает на вход путь до JSON-файла и
+    '''принимает на вход путь до csv-файла и
         возвращает список словарей с данными о финансовых транзакциях.'''
     operations = []
 
@@ -67,13 +66,47 @@ def read_financial_operations(file_path):
                     'description': row['description']
                      }
                     operations.append(operation)
-            except Exception as ex:
+            except csv.Error as ex:
                 logger.error(f'произошла ошибка: {ex}')
                 print("Ошибка загрузки файла")
     except FileNotFoundError as ex:
         logger.error(f'произошла ошибка: {ex}')
         print("Файл не найден")
         return []
+    return operations
+
+def read_financial_operations_exel(file_path):
+    '''принимает на вход путь до exel-файла и
+        возвращает список словарей с данными о финансовых транзакциях.'''
+
+    df = pd.read_excel(file_path)
+    operations = df.to_dict(orient='records')
+
+    # try:
+    #     with open(file_path, mode='r', encoding='latin1') as file:
+    #         try:
+    #             operations = pd.read_excel(file)
+    #
+    #             # for row in csv_reader:
+    #             #     operation = {
+    #             #     'id': row['id'],
+    #             #     'state': row['state'],
+    #             #     'date': row['date'],
+    #             #     'amount': row['amount'],
+    #             #     'currency_name': row['currency_name'],
+    #             #     'currency_code': row['currency_code'],
+    #             #     'from': row['from'],
+    #             #     'to': row['to'],
+    #             #     'description': row['description']
+    #             #      }
+    #             #     operations.append(operation)
+    #         except Exception as ex:
+    #             logger.error(f'произошла ошибка: {ex}')
+    #             print("Ошибка загрузки файла")
+    # except FileNotFoundError as ex:
+    #     logger.error(f'произошла ошибка: {ex}')
+    #     print("Файл не найден")
+    #     return []
     return operations
 
 
@@ -86,8 +119,10 @@ if __name__ == "__main__":
     # load_operations_list(r'C:\pytnon\widget\data\operations.json')
     # print(load_operations_list((r'C:\pytnon\widget\data\operations.json')))
 
-    operations = read_financial_operations(r'C:\pytnon\widget\data\transactions.csv')
-    print(operations)
+    # operations = read_financial_operations(r'C:\pytnon\widget\data\transactions.csv')
+    operations = read_financial_operations_exel(r'C:\pytnon\widget\data\transactions_excel.xlsx')
+    for op in operations:
+        print(operations)
     # for op in operations:
     #     print(f"ID: {op['id']}, State: {op['state']}, Date: {op['date']}, Amount: {op['amount']}, "
     #           f"Currency: {op['currency_name']} ({op['currency_code']}), From: {op['from']}, "
