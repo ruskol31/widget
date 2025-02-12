@@ -1,7 +1,9 @@
 import json
-import pytest
-import pandas as pd
+import unittest
 from unittest.mock import mock_open, patch
+
+import pandas as pd
+
 from src.utils import load_operations_list, read_financial_operations, read_financial_operations_exel
 
 
@@ -17,7 +19,6 @@ def test_load_operations_list_success():
 def test_load_operations_list_json_decode_error():
     # Некорректные данные JSON
     mock_data = "invalid json"
-
     with patch("builtins.open", mock_open(read_data=mock_data)):
         result = load_operations_list("dummy_path.json")
         assert result == []
@@ -52,53 +53,67 @@ def test_read_financial_operations_file_not_found():
 
 
 def test_read_financial_operations_exel():
-    mock_data = pd.DataFrame([
-        {
-            'id': 650703,
-            'state': 'EXECUTED',
-            'date': '2023-09-05T11:30:32Z',
-            'amount': 16210.0,
-            'currency_name': 'Sol',
-            'currency_code': 'PEN',
-            'from': 'Счет 58803664561298323391',
-            'to': 'Счет 39745660563456619397',
-            'description': 'Перевод организации'
-        },
-        {
-            'id': 3598919,
-            'state': 'EXECUTED',
-            'date': '2020-12-06T23:00:58Z',
-            'amount': 29740.0,
-            'currency_name': 'Peso',
-            'currency_code': 'COP',
-            'from': 'Discover 3172601889670065',
-            'to': 'Discover 0720428384694643',
-            'description': 'Перевод с карты на карту'
-        }
-    ])
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        result = read_financial_operations_exel('dummy_path.xlsx')
-        # assert result == [
-        #     {
-        #         'id': 650703,
-        #         'state': 'EXECUTED',
-        #         'date': '2023-09-05T11:30:32Z',
-        #         'amount': 16210.0,
-        #         'currency_name': 'Sol',
-        #         'currency_code': 'PEN',
-        #         'from': 'Счет 58803664561298323391',
-        #         'to': 'Счет 39745660563456619397',
-        #         'description': 'Перевод организации'
-        #     },
-        #     {
-        #         'id': 3598919,
-        #         'state': 'EXECUTED',
-        #         'date': '2020-12-06T23:00:58Z',
-        #         'amount': 29740.0,
-        #         'currency_name': 'Peso',
-        #         'currency_code': 'COP',
-        #         'from': 'Discover 3172601889670065',
-        #         'to': 'Discover 0720428384694643',
-        #         'description': 'Перевод с карты на карту'
-        #     }
-        # ]
+    class TestReadFinancialOperationsFromExcel(unittest.TestCase):
+
+        @patch('pandas.read_excel')
+        def test_read_financial_operations_from_excel(self, mock_read_excel):
+            # Пример данных, которые будет возвращать mock
+            mock_data = pd.DataFrame([
+                {
+                    'id': '650703',
+                    'state': 'EXECUTED',
+                    'date': '2023-09-05T11:30:32Z',
+                    'amount': '16210.0',
+                    'currency_name': 'Sol',
+                    'currency_code': 'PEN',
+                    'from': 'Счет 58803664561298323391',
+                    'to': 'Счет 39745660563456619397',
+                    'description': 'Перевод организации'
+                },
+                {
+                    'id': 3598919,
+                    'state': 'EXECUTED',
+                    'date': '2020-12-06T23:00:58Z',
+                    'amount': 29740.0,
+                    'currency_name': 'Peso',
+                    'currency_code': 'COP',
+                    'from': 'Discover 3172601889670065',
+                    'to': 'Discover 0720428384694643',
+                    'description': 'Перевод с карты на карту'
+                }
+            ])
+
+            # Настраиваем mock, чтобы он возвращал mock_data
+            mock_read_excel.return_value = mock_data
+
+            # Ожидаемый результат
+            expected_result = [
+                {
+                    'id': '650703',
+                    'state': 'EXECUTED',
+                    'date': '2023-09-05T11:30:32Z',
+                    'amount': '16210.0',
+                    'currency_name': 'Sol',
+                    'currency_code': 'PEN',
+                    'from': 'Счет 58803664561298323391',
+                    'to': 'Счет 39745660563456619397',
+                    'description': 'Перевод организации'
+                },
+                {
+                    'id': 3598919,
+                    'state': 'EXECUTED',
+                    'date': '2020-12-06T23:00:58Z',
+                    'amount': 29740.0,
+                    'currency_name': 'Peso',
+                    'currency_code': 'COP',
+                    'from': 'Discover 3172601889670065',
+                    'to': 'Discover 0720428384694643',
+                    'description': 'Перевод с карты на карту'
+                }
+            ]
+
+            # Вызов тестируемой функции
+            result = read_financial_operations_exel('dummy_path.xlsx')
+
+            # Проверка, что результат соответствует ожидаемому
+            self.assertEqual(result, expected_result)
