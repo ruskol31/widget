@@ -31,3 +31,4 @@ list_of_executed_operation = filter_by_state(list_of_operation)
 sorted_list_of_operation = sort_by_date(list_of_operation)
 print("список по убыванию даты", sorted_list_of_operation)
 print("список выполненных операций", list_of_executed_operation)
+
