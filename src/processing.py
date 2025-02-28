@@ -1,4 +1,7 @@
 from datetime import datetime
+import re
+
+
 # from typing import Dict, List, Optional
 
 
@@ -31,3 +34,15 @@ list_of_executed_operation = filter_by_state(list_of_operation)
 sorted_list_of_operation = sort_by_date(list_of_operation)
 print("список по убыванию даты", sorted_list_of_operation)
 print("список выполненных операций", list_of_executed_operation)
+
+
+def filter_transactions_by_description(operation_list: list[dict], search_string: str) -> list[dict]:
+    """
+    Фильтрует список банковских операций, возвращая только те, в описании которых содержится заданная строка.
+
+    :param operation_list: Список словарей с данными о банковских операциях.
+    :param search_string: Строка поиска для фильтрации по описанию.
+    :return: Список словарей, соответствующих критерию поиска.
+    """
+    pattern = re.compile(search_string, re.IGNORECASE)
+    return [t for t in operation_list if pattern.search(t.get('description', ''))]
