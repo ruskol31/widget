@@ -36,7 +36,7 @@ print("список по убыванию даты", sorted_list_of_operation)
 print("список выполненных операций", list_of_executed_operation)
 
 
-def filter_transactions_by_description(operation_list, search_string):
+def filter_transactions_by_description(operation_list: list[dict], search_string: str) -> list[dict]:
     """
     Фильтрует список банковских операций, возвращая только те, в описании которых содержится заданная строка.
 
