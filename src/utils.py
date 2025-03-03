@@ -5,7 +5,6 @@ import logging
 from typing import Any
 import pandas as pd
 
-
 logger = logging.getLogger('utils')
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -56,16 +55,16 @@ def read_financial_operations(file_path):
 
                 for row in csv_reader:
                     operation = {
-                    'id': row['id'],
-                    'state': row['state'],
-                    'date': row['date'],
-                    'amount': row['amount'],
-                    'currency_name': row['currency_name'],
-                    'currency_code': row['currency_code'],
-                    'from': row['from'],
-                    'to': row['to'],
-                    'description': row['description']
-                     }
+                        'id': row['id'],
+                        'state': row['state'],
+                        'date': row['date'],
+                        'amount': row['amount'],
+                        'currency_name': row['currency_name'],
+                        'currency_code': row['currency_code'],
+                        'from': row['from'],
+                        'to': row['to'],
+                        'description': row['description']
+                    }
                     operations.append(operation)
             except csv.Error as ex:
                 logger.error(f'произошла ошибка: {ex}')
@@ -75,6 +74,7 @@ def read_financial_operations(file_path):
         print("Файл не найден")
         return []
     return operations
+
 
 def read_financial_operations_exel(file_path):
     '''принимает на вход путь до exel-файла и

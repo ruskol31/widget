@@ -1,5 +1,5 @@
 # from datetime import datetime
-from src.processing import filter_transactions_by_description
+from src.processing import filter_transactions_by_description, filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 from src.utils import load_operations_list, read_financial_operations, read_financial_operations_exel
 
@@ -44,7 +44,7 @@ while True:
         break
     print(f"Статус операции \"{status}\" недоступен.")
 
-filtered_transactions = [t for t in operation_list if t['state'].upper() == status]
+filtered_transactions = filter_by_state(operation_list, status)
 print(f"Операции отфильтрованы по статусу \"{status}\"")
 
 if not filtered_transactions:
@@ -54,7 +54,8 @@ sort_choice = input("Отсортировать операции по дате? 
 if sort_choice == 'да':
     order_choice = input("Отсортировать по возрастанию или по убыванию?\n").strip().lower()
     ascending = order_choice == 'по возрастанию'
-    filtered_transactions.sort(key=lambda x: x['date'], reverse=not ascending)
+    filtered_transactions = sort_by_date(filtered_transactions, 'ascending')
+    # filtered_transactions.sort(key=lambda x: x['date'], reverse=not ascending)
 
 ruble_choice = input("Выводить только рублевые тразакции? Да/Нет\n").strip().lower()
 if ruble_choice == 'да':
