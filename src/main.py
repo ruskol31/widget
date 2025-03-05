@@ -1,7 +1,16 @@
 # from datetime import datetime
-from src.processing import filter_transactions_by_description, filter_by_state, sort_by_date
+from src.processing import filter_transactions_by_description, filter_by_state, sort_by_date, \
+    count_transactions_by_category
 from src.widget import get_date, mask_account_card
 from src.utils import load_operations_list, read_financial_operations, read_financial_operations_exel
+from src.generators import filter_by_currency
+
+import os
+
+current_dir = os.path.dirname(__file__)
+base_dir = os.path.dirname(current_dir)
+print(base_dir)
+
 
 # from masks import get_mask_card_number, get_mask_account
 
@@ -25,17 +34,21 @@ user_input_type_of_data = input(f"Выберите необходимый пун
 
 if user_input_type_of_data == "1":
     print("пользователь выбрал загрузку из JSON файла")
-    operation_list = load_operations_list(r'C:\pytnon\widget\data\operations.json')
+    relative_path = os.path.join(base_dir, 'data', 'operations.json')
+    operation_list = load_operations_list(relative_path)
 elif user_input_type_of_data == "2":
     print("пользователь выбрал загрузку из CSV файла")
-    operation_list = read_financial_operations(r'C:\pytnon\widget\data\transactions.csv')
+    relative_path = os.path.join(base_dir, 'data', 'transactions.csv')
+    operation_list = read_financial_operations(relative_path)
 elif user_input_type_of_data == "3":
     print("пользователь выбрал загрузку из XLSX файла")
-    operation_list = read_financial_operations_exel(r'C:\pytnon\widget\data\transactions_excel.xlsx')
+    relative_path = os.path.join(base_dir, 'data', 'transactions_excel.xlsx')
+    operation_list = read_financial_operations_exel(relative_path)
 else:
     print("Неверный выбор")
 
 # print(operation_list)
+
 valid_statuses = {'EXECUTED', 'CANCELED', 'PENDING'}
 while True:
     status = input(
@@ -59,10 +72,11 @@ if sort_choice == 'да':
 
 ruble_choice = input("Выводить только рублевые тразакции? Да/Нет\n").strip().lower()
 if ruble_choice == 'да':
-    filtered_transactions = [t for t in filtered_transactions if t['currency_code'] == 'RUB']
+    filtered_transactions = filter_by_currency(filtered_transactions, "RUB")
+    # filtered_transactions = [t for t in filtered_transactions if t['currency_code'] == 'RUB']
 
 description_choice = input(
-        "Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n").strip().lower()
+    "Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n").strip().lower()
 if description_choice == 'да':
     search_string = input("Введите слово для фильтрации по описанию:\n").strip()
     filtered_transactions = filter_transactions_by_description(filtered_transactions, search_string)
@@ -76,3 +90,11 @@ else:
         print(f"{transaction['date']} {transaction['description']}")
         print(f"{transaction['from']} -> {transaction['to']}")
         print(f"Сумма: {transaction['amount']} {transaction['currency_code']}\n")
+
+count_transactions = input("Посчитать транзакции по операциям? Да/Нет\n").strip().lower()
+if count_transactions == 'да':
+    categories_input = input("Введите категории операций, разделенные запятыми: ")
+# Разбиваем введенную строку на список категорий
+    categories = [category.strip() for category in categories_input.split(',')]
+    counted_transactions = count_transactions_by_category(filtered_transactions, categories)
+    print(f"количество транзакций по заданному описанию, {counted_transactions}\n")
