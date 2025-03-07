@@ -107,3 +107,30 @@ def count_transactions_by_category(operation_list, categories):
                 category_count[category] += 1
 
     return dict(category_count)
+
+
+from collections import Counter
+
+
+def count_operations_by_description(transactions, description_dict):
+    """
+    Подсчитывает количество банковских операций по описанию.
+
+    :param transactions: Список словарей с данными о транзакциях.
+    :param description_dict: Словарь для подсчета транзакций по описанию.
+    :return: Словарь, где ключи — это названия категорий, а значения — количество операций в каждой категории.
+    """
+    # Извлекаем описания из транзакций
+    descriptions = [transaction.get('description', '') for transaction in transactions]
+
+    # Используем Counter для подсчета количества каждого описания
+    description_counter = Counter(descriptions)
+
+    # Обновляем переданный словарь с подсчетами
+    for description, count in description_counter.items():
+        if description in description_dict:
+            description_dict[description] += count
+        else:
+            description_dict[description] = count
+
+    return description_dict

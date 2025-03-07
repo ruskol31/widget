@@ -1,7 +1,7 @@
 def filter_by_currency(operation: list[dict], currency: str = "RUB") -> iter:
     '''поочередно выдает транзакции, где валюта операции соответствует заданной (например, USD)'''
     #     return (item for item in transactions if item.get("name") == "USD")
-    # return filter(lambda x: x["operationAmount"]["currency"]["code"] == currency, transactions)
+    # return filter(lambda x: x["operationAmount"]["currency"]["code"] == currency, operation)
     currency_transactions = [t for t in operation if t['currency_code'] == currency]
     return currency_transactions
 def transaction_descriptions(transactions: list[dict]) -> iter:

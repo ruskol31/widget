@@ -47,7 +47,7 @@ elif user_input_type_of_data == "3":
 else:
     print("Неверный выбор")
 
-# print(operation_list)
+print(operation_list)
 
 valid_statuses = {'EXECUTED', 'CANCELED', 'PENDING'}
 while True:

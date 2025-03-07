@@ -39,8 +39,24 @@ def load_operations_list(file_path: str) -> Any:
         logger.error(f'произошла ошибка: {ex}')
         print("Файл не найден")
         return []
-    # return operations_list
     return operations_list
+    # reformatted_transactions = []
+    #
+    # for transaction in operations_list:
+    #     reformatted_transaction = {
+    #         'id': str(transaction.get('id', '')),
+    #         'state': transaction.get('state', ''),
+    #         'date': transaction.get('date', ''),
+    #         'amount': transaction.get('operationAmount', {}).get('amount', ''),
+    #         'currency_name': transaction.get('operationAmount', {}).get('currency', {}).get('name', ''),
+    #         'currency_code': transaction.get('operationAmount', {}).get('currency', {}).get('code', ''),
+    #         'from': transaction.get('from', ''),
+    #         'to': transaction.get('to', ''),
+    #         'description': transaction.get('description', '')
+    #     }
+    #     reformatted_transactions.append(reformatted_transaction)
+    # reformatted_transactions.append(reformatted_transaction)
+    # return reformatted_transactions
 
 
 def read_financial_operations(file_path):

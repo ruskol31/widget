@@ -1,6 +1,6 @@
 import pytest
 import unittest
-from src.processing import filter_by_state, sort_by_date, filter_transactions_by_description
+from src.processing import filter_by_state, sort_by_date, filter_transactions_by_description, parse_date
 
 
 @pytest.fixture
