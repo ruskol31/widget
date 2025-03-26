@@ -1,7 +1,7 @@
 # from datetime import datetime
 from src.processing import filter_transactions_by_description, filter_by_state, sort_by_date, \
-    count_transactions_by_category
-from src.widget import get_date, mask_account_card
+    count_transactions_by_category, count_operations_by_description
+# from src.widget import get_date, mask_account_card
 from src.utils import load_operations_list, read_financial_operations, read_financial_operations_exel
 from src.generators import filter_by_currency
 
@@ -10,7 +10,6 @@ import os
 current_dir = os.path.dirname(__file__)
 base_dir = os.path.dirname(current_dir)
 print(base_dir)
-
 
 # from masks import get_mask_card_number, get_mask_account
 
@@ -27,11 +26,10 @@ print(base_dir)
 # print(get_date("2024-03-11T02:26:18.671407"))
 
 print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
-user_input_type_of_data = input(f"Выберите необходимый пункт меню: \n"
-                                f"1. Получить информацию о транзакциях из JSON-файла\n"
-                                f"2. Получить информацию о транзакциях из CSV-файла\n"
-                                f"3. Получить информацию о транзакциях из XLSX-файла\n")
-
+user_input_type_of_data = input("Выберите необходимый пункт меню: \n"
+                                "1. Получить информацию о транзакциях из JSON-файла\n"
+                                "2. Получить информацию о транзакциях из CSV-файла\n"
+                                "3. Получить информацию о транзакциях из XLSX-файла\n")
 if user_input_type_of_data == "1":
     print("пользователь выбрал загрузку из JSON файла")
     relative_path = os.path.join(base_dir, 'data', 'operations.json')
@@ -52,7 +50,8 @@ print(operation_list)
 valid_statuses = {'EXECUTED', 'CANCELED', 'PENDING'}
 while True:
     status = input(
-        "Введите статус, по которому необходимо выполнить фильтрацию. Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\n").strip().upper()
+        "Введите статус, по которому необходимо выполнить фильтрацию. "
+        "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\n").strip().upper()
     if status in valid_statuses:
         break
     print(f"Статус операции \"{status}\" недоступен.")
@@ -94,7 +93,12 @@ else:
 count_transactions = input("Посчитать транзакции по операциям? Да/Нет\n").strip().lower()
 if count_transactions == 'да':
     categories_input = input("Введите категории операций, разделенные запятыми: ")
-# Разбиваем введенную строку на список категорий
+    # Разбиваем введенную строку на список категорий
     categories = [category.strip() for category in categories_input.split(',')]
     counted_transactions = count_transactions_by_category(filtered_transactions, categories)
     print(f"количество транзакций по заданному описанию, {counted_transactions}\n")
+
+counted_opers = {}
+counted_opers = count_operations_by_description(filtered_transactions, counted_opers)
+print("Итоговое количество операций по категориям")
+print(f"{counted_opers}")

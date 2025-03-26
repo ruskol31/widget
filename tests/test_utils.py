@@ -9,11 +9,23 @@ from src.utils import load_operations_list, read_financial_operations, read_fina
 
 def test_load_operations_list_success():
     # Пример данных JSON
-    mock_data = json.dumps([{"id": 1, "amount": 100}, {"id": 2, "amount": 200}])
+    mock_data = json.dumps([{
+        "id": 441945886,
+        "state": "EXECUTED",
+        "date": "2019-08-26T10:50:58.294041",
+        "operationAmount": {
+            "amount": "31957.58",
+            "currency": {
+                "name": "руб.",
+                "code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "Maestro 1596837868705199",
+        "to": "Счет 64686473678894779589"
+    }])
 
     with patch("builtins.open", mock_open(read_data=mock_data)):
         result = load_operations_list("dummy_path.json")
-        assert result == [{"id": 1, "amount": 100}, {"id": 2, "amount": 200}]
+        assert result == [{'id': '441945886', 'state': 'EXECUTED', 'date': '2019-08-26T10:50:58.294041', 'amount': '31957.58', 'currency_name': 'руб.', 'currency_code': 'RUB', 'from': 'Maestro 1596837868705199', 'to': 'Счет 64686473678894779589', 'description': 'Перевод организации'}]
 
 
 def test_load_operations_list_json_decode_error():

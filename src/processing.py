@@ -1,6 +1,7 @@
 from datetime import datetime
 import re
 from collections import defaultdict
+from collections import Counter
 
 
 # from typing import Dict, List, Optional
@@ -44,7 +45,7 @@ def sort_by_date(transactions, ascending=True):
     sorted_transactions = sorted(
         transactions,
         key=lambda x: parse_date(x['date']),
-        reverse=not ascending
+        reverse=ascending
     )
 
     return sorted_transactions
@@ -107,9 +108,6 @@ def count_transactions_by_category(operation_list, categories):
                 category_count[category] += 1
 
     return dict(category_count)
-
-
-from collections import Counter
 
 
 def count_operations_by_description(transactions, description_dict):
