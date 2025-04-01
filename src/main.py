@@ -1,7 +1,6 @@
 # from datetime import datetime
 from src.processing import filter_transactions_by_description, filter_by_state, sort_by_date, \
     count_transactions_by_category, count_operations_by_description
-# from src.widget import get_date, mask_account_card
 from src.utils import load_operations_list, read_financial_operations, read_financial_operations_exel
 from src.generators import filter_by_currency
 
