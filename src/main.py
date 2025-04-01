@@ -66,7 +66,7 @@ sort_choice = input("Отсортировать операции по дате? 
 if sort_choice == 'да':
     order_choice = input("Отсортировать по возрастанию или по убыванию?\n").strip().lower()
     ascending = order_choice == 'по возрастанию'
-    filtered_transactions = sort_by_date(filtered_transactions, 'ascending')
+    filtered_transactions = sort_by_date(filtered_transactions, True)
     # filtered_transactions.sort(key=lambda x: x['date'], reverse=not ascending)
 
 ruble_choice = input("Выводить только рублевые тразакции? Да/Нет\n").strip().lower()
