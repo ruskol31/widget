@@ -13,9 +13,6 @@ def test_my_function(caplog):
         result = my_function(1, 2)
         assert result == 3
         assert "my_function ок, result =3" in caplog.text
-
-
-def test_my_function(caplog):
     with caplog.at_level(logging.ERROR):
         with pytest.raises(TypeError):
             my_function(1, 2, 3)

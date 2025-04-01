@@ -4,6 +4,8 @@ def filter_by_currency(operation: list[dict], currency: str = "RUB") -> iter:
     # return filter(lambda x: x["operationAmount"]["currency"]["code"] == currency, operation)
     currency_transactions = [t for t in operation if t['currency_code'] == currency]
     return currency_transactions
+
+
 def transaction_descriptions(transactions: list[dict]) -> iter:
     '''генератор, который принимает список словарей с транзакциями и возвращает описание каждой операции по очереди'''
     description = (transaction['description'] for transaction in transactions if 'description' in transaction)
