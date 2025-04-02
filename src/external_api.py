@@ -1,23 +1,22 @@
 import os
 from dotenv import load_dotenv
 import requests
-
 from src.utils import load_operations_list
 
 load_dotenv()
 
-API_KEY = os.getenv('API_KEY') # Замените на ваш API ключ
+API_KEY = os.getenv('API_KEY')  # Замените на ваш API ключ
 
 BASE_URL = "https://api.apilayer.com/exchangerates_data/convert"
-# "https://api.apilayer.com/exchangerates_data/convert?to=to&from=from&amount=amount"
-def convert_to_rub(transaction):
-    """
-    Конвертирует сумму транзакции в рубли.
 
+
+# "https://api.apilayer.com/exchangerates_data/convert?to=to&from=from&amount=amount"
+
+def convert_to_rub(transaction):
+    """ Конвертирует сумму транзакции в рубли.
     :param transaction: Словарь с данными о транзакции, содержащий 'amount' и 'currency'.
     :return: Сумма транзакции в рублях (float).
     """
-
     amount = transaction.get('amount', 0)
     currency = transaction.get('currency', 'RUB')
 
@@ -28,7 +27,6 @@ def convert_to_rub(transaction):
 
         url = "{}?from={}&to=RUB&amount={}".format(BASE_URL, currency, amount)
         response = requests.get(url, headers={'apikey': API_KEY})
-
         # response = requests.get(BASE_URL, params={
         #     'from': currency,
         #     'to': 'RUB',
@@ -47,6 +45,7 @@ def convert_to_rub(transaction):
         print(f"Ошибка сети: {e}")
         return 0.0
 
+
 # Пример использования
 if __name__ == "__main__":
     opertaion_list = load_operations_list(r'C:\pytnon\widget\data\operations.json')
@@ -64,4 +63,3 @@ if __name__ == "__main__":
             print(f"Сумма в рублях: {amount_in_rub}")
         else:
             print("Ключ 'amount' не найден.")
-

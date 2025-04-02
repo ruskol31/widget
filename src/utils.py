@@ -5,7 +5,6 @@ import logging
 from typing import Any
 import pandas as pd
 
-
 logger = logging.getLogger('utils')
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -41,7 +40,21 @@ def load_operations_list(file_path: str) -> Any:
         print("Файл не найден")
         return []
     # return operations_list
-    return operations_list
+    reformatted_transactions = []
+    for transaction in operations_list:
+        reformatted_transaction = {
+            'id': str(transaction.get('id', '')),
+            'state': transaction.get('state', ''),
+            'date': transaction.get('date', ''),
+            'amount': transaction.get('operationAmount', {}).get('amount', ''),
+            'currency_name': transaction.get('operationAmount', {}).get('currency', {}).get('name', ''),
+            'currency_code': transaction.get('operationAmount', {}).get('currency', {}).get('code', ''),
+            'from': transaction.get('from', ''),
+            'to': transaction.get('to', ''),
+            'description': transaction.get('description', '')
+        }
+        reformatted_transactions.append(reformatted_transaction)
+    return reformatted_transactions
 
 
 def read_financial_operations(file_path):
@@ -56,16 +69,16 @@ def read_financial_operations(file_path):
 
                 for row in csv_reader:
                     operation = {
-                    'id': row['id'],
-                    'state': row['state'],
-                    'date': row['date'],
-                    'amount': row['amount'],
-                    'currency_name': row['currency_name'],
-                    'currency_code': row['currency_code'],
-                    'from': row['from'],
-                    'to': row['to'],
-                    'description': row['description']
-                     }
+                        'id': row['id'],
+                        'state': row['state'],
+                        'date': row['date'],
+                        'amount': row['amount'],
+                        'currency_name': row['currency_name'],
+                        'currency_code': row['currency_code'],
+                        'from': row['from'],
+                        'to': row['to'],
+                        'description': row['description']
+                    }
                     operations.append(operation)
             except csv.Error as ex:
                 logger.error(f'произошла ошибка: {ex}')
@@ -75,6 +88,7 @@ def read_financial_operations(file_path):
         print("Файл не найден")
         return []
     return operations
+
 
 def read_financial_operations_exel(file_path):
     '''принимает на вход путь до exel-файла и

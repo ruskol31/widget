@@ -9,11 +9,27 @@ from src.utils import load_operations_list, read_financial_operations, read_fina
 
 def test_load_operations_list_success():
     # Пример данных JSON
-    mock_data = json.dumps([{"id": 1, "amount": 100}, {"id": 2, "amount": 200}])
+    mock_data = json.dumps([{
+        "id": 441945886,
+        "state": "EXECUTED",
+        "date": "2019-08-26T10:50:58.294041",
+        "operationAmount": {
+            "amount": "31957.58",
+            "currency": {
+                "name": "руб.",
+                "code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "Maestro 1596837868705199",
+        "to": "Счет 64686473678894779589"
+    }])
 
     with patch("builtins.open", mock_open(read_data=mock_data)):
         result = load_operations_list("dummy_path.json")
-        assert result == [{"id": 1, "amount": 100}, {"id": 2, "amount": 200}]
+        assert result == [
+            {'id': '441945886', 'state': 'EXECUTED', 'date': '2019-08-26T10:50:58.294041',
+             'amount': '31957.58', 'currency_name': 'руб.', 'currency_code': 'RUB',
+             'from': 'Maestro 1596837868705199', 'to': 'Счет 64686473678894779589',
+             'description': 'Перевод организации'}]
 
 
 def test_load_operations_list_json_decode_error():
@@ -32,18 +48,39 @@ def test_load_operations_list_file_not_found():
 
 def test_read_financial_operations():
     # Тест на случай корректного файла
-    csv_data = ('''id;state;date;amount;currency_name;currency_code;from;to;description
-650703;EXECUTED;2023-09-05T11:30:32Z;16210;Sol;PEN;Счет 58803664561298323391;Счет 39745660563456619397;Перевод организации
-3598919;EXECUTED;2020-12-06T23:00:58Z;29740;Peso;COP;Discover 3172601889670065;Discover 0720428384694643;Перевод с карты на карту''')
-
+    csv_data = (
+        "id;state;date;amount;currency_name;currency_code;from;to;description\n"
+        "650703;EXECUTED;2023-09-05T11:30:32Z;16210;Sol;PEN;Счет 58803664561298323391;Счет"
+        " 39745660563456619397;Перевод организации\n"
+        "3598919;EXECUTED;2020-12-06T23:00:58Z;29740;Peso;COP;Discover 3172601889670065;Discover"
+        " 0720428384694643;Перевод с карты на карту"
+    )
     with patch("builtins.open", mock_open(read_data=csv_data)):
         result = read_financial_operations("dummy_path.csv")
-        assert result == [{'id': '650703', 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': '16210',
-                           'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391',
-                           'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'},
-                          {'id': '3598919', 'state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': '29740',
-                           'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065',
-                           'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'}]
+        assert result == [
+            {
+                'id': '650703',
+                'state': 'EXECUTED',
+                'date': '2023-09-05T11:30:32Z',
+                'amount': '16210',
+                'currency_name': 'Sol',
+                'currency_code': 'PEN',
+                'from': 'Счет 58803664561298323391',
+                'to': 'Счет 39745660563456619397',
+                'description': 'Перевод организации'
+            },
+            {
+                'id': '3598919',
+                'state': 'EXECUTED',
+                'date': '2020-12-06T23:00:58Z',
+                'amount': '29740',
+                'currency_name': 'Peso',
+                'currency_code': 'COP',
+                'from': 'Discover 3172601889670065',
+                'to': 'Discover 0720428384694643',
+                'description': 'Перевод с карты на карту'
+            }
+        ]
 
 
 def test_read_financial_operations_file_not_found():
